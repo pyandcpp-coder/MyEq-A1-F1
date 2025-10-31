@@ -6,9 +6,9 @@ The primary goal was to design and implement a system where a TurtleBot3 robot i
 
 ## Youtuve Video 
 
-- **Single Waypoint Navigation**: (Video)[https://youtu.be/QRTsv9Bv3QI]
+- **Single Waypoint Navigation**: [Video](https://youtu.be/QRTsv9Bv3QI)
 
-- **Multiple Waypoint Sequence**: (Video)[https://youtu.be/E6uF3jzNZGs]
+- **Multiple Waypoint Sequence**: [Video](https://youtu.be/E6uF3jzNZGs)
 
 ## How to Run the Project
 
