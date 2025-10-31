@@ -74,13 +74,7 @@ def generate_launch_description():
                     ('cmd_vel_smoothed', 'cmd_vel')]
     )
 
-    collision_monitor_node = Node(
-        package='nav2_collision_monitor',
-        executable='collision_monitor',
-        name='collision_monitor',
-        output='screen',
-        parameters=[params_file, {'use_sim_time': use_sim_time}]
-    )
+
 
     lifecycle_manager_node = Node(
         package='nav2_lifecycle_manager',
@@ -96,7 +90,7 @@ def generate_launch_description():
                                     'bt_navigator',
                                     'waypoint_follower',
                                     'velocity_smoother',
-                                    'collision_monitor']}]
+                                    ]}]
     )
 
     ld = LaunchDescription()
@@ -111,7 +105,6 @@ def generate_launch_description():
     ld.add_action(bt_navigator_node)
     ld.add_action(waypoint_follower_node)
     ld.add_action(velocity_smoother_node)
-    ld.add_action(collision_monitor_node)
     ld.add_action(lifecycle_manager_node)
 
     return ld

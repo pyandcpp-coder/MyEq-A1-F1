@@ -8,22 +8,18 @@ from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
-    # Package Paths
     tb_sim_pkg = FindPackageShare('tb_sim').find('tb_sim')
     tb_nav_pkg = FindPackageShare('tb_nav').find('tb_nav')
 
-    # --- Launch Arguments ---
     map_yaml_file = os.path.join(tb_nav_pkg, 'maps', 'my_world_map.yaml')
     nav2_params_file = os.path.join(tb_nav_pkg, 'config', 'nav2_params.yaml')
 
-    # --- Simulation ---
     start_simulation_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(tb_sim_pkg, 'launch', 'start_world_and_robot.launch.py')
         )
     )
 
-    # --- Map Server ---
     map_server_node = Node(
         package='nav2_map_server',
         executable='map_server',
@@ -33,7 +29,6 @@ def generate_launch_description():
                     {'yaml_filename': map_yaml_file}]
     )
 
-    # --- AMCL Localization ---
     amcl_node = Node(
         package='nav2_amcl',
         executable='amcl',
@@ -42,7 +37,6 @@ def generate_launch_description():
         parameters=[nav2_params_file, {'use_sim_time': True}]
     )
 
-    # --- Lifecycle Manager for Localization ---
     lifecycle_manager_localization = Node(
         package='nav2_lifecycle_manager',
         executable='lifecycle_manager',
@@ -53,7 +47,6 @@ def generate_launch_description():
                     {'node_names': ['map_server', 'amcl']}]
     )
 
-    # --- Nav2 Navigation Stack (controller, planner, behavior, bt_navigator, etc.) ---
     start_navigation_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(tb_nav_pkg, 'launch', 'nav2_launch_include_file.py')
@@ -64,8 +57,6 @@ def generate_launch_description():
         }.items()
     )
 
-    # --- Static Transform Publisher (map -> odom) ---
-    # This is temporary until AMCL takes over after you set initial pose in RViz
     static_map_to_odom_publisher = Node(
         package='tf2_ros',
         executable='static_transform_publisher',
@@ -74,12 +65,10 @@ def generate_launch_description():
         parameters=[{'use_sim_time': True}]
     )
 
-    # --- Launch Description ---
     ld = LaunchDescription()
 
-    # Add nodes
     ld.add_action(start_simulation_cmd)
-    ld.add_action(static_map_to_odom_publisher)  # Add this BEFORE map_server
+    ld.add_action(static_map_to_odom_publisher) 
     ld.add_action(map_server_node)
     ld.add_action(amcl_node)
     ld.add_action(lifecycle_manager_localization)
