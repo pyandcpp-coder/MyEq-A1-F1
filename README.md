@@ -4,6 +4,12 @@ This project implements a full navigation system for a TurtleBot3 robot in a cus
 
 The primary goal was to design and implement a system where a TurtleBot3 robot in a custom Gazebo map autonomously navigates to user-selected waypoints chosen via a simple GUI.
 
+## Youtuve Video 
+
+- **Single Waypoint Navigation**: (Video)[https://youtu.be/QRTsv9Bv3QI]
+
+- **Multiple Waypoint Sequence**: (Video)[https://youtu.be/E6uF3jzNZGs]
+
 ## How to Run the Project
 
 1. **Build the Workspace**: From the root of the workspace (myeq_ws), build all packages:
